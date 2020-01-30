@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import classNames from "./App.module.css";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [likes, setLikes] = useState(100);
+	const [clicked, setClicked] = useState(false);
+	const baseClass = [classNames["like-button"]];
+	const clickedClass = baseClass.concat([classNames.liked]);
+	const [buttonClassNames, setButtonClassNames] = useState(baseClass);
+	const clickLike = () => {
+		if (clicked) {
+			setLikes(likes - 1);
+			setClicked(false);
+			setButtonClassNames(baseClass);
+		} else {
+			setClicked(true);
+			setLikes(likes + 1);
+			setButtonClassNames(clickedClass);
+		}
+	};
+	return (
+		<div className="App">
+			<button onClick={clickLike} className={buttonClassNames.join(" ")}>
+				Like | <span className="likes-counter">{likes}</span>
+			</button>
+		</div>
+	);
 }
 
 export default App;
